@@ -137,7 +137,7 @@ const SignedOut = createStackNavigator(
         SignIn: {
             screen: SignIn,
             navigationOptions: () => ({
-                title: 'FPM Point Client'
+                title: 'OpenPoint Client'
             })
         },
         SignUp: { screen: SignUp },
@@ -159,7 +159,7 @@ class SwitchLayout extends React.Component {
         const SignedInContainer = createAppContainer(SignedIn);
         const SignedOutContainer = createAppContainer(SignedOut);
 
-        //
+        ///
         // const page = this.props.state.navData.nav.page;
 
         //ここのtrue/falseを切り替えて手動で切り替えテスト
