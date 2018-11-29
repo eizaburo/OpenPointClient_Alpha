@@ -11,15 +11,22 @@ import { updateUserData } from '../actions/userAction';
 import { Formik, yupToFormErrors } from 'formik';
 import * as Yup from 'yup';
 
+//Devlig
+import * as Devlib from '../Devlib';
 
 class SignIn extends React.Component {
+
+    state = {
+        spinner: false,
+    }
+
     render() {
         return (
             <View style={{ flex: 1, paddingVertical: 20 }}>
                 <Formik
                     initialValues={{
-                        email: '',
-                        password: ''
+                        email: 'test@test.com',
+                        password: 'testtes'
                     }}
                     onSubmit={(values) => this.handleSignIn(values)}
                     validationSchema={Yup.object().shape({
@@ -29,7 +36,7 @@ class SignIn extends React.Component {
                             .required('Emailの入力は必須です。'),
                         password: Yup
                             .string()
-                            .min(4,'4文字以上で入力して下さい。')
+                            .min(4, '4文字以上で入力して下さい。')
                             .required('パスワードの入力は必須です。'),
                     })}
                 >
@@ -58,6 +65,7 @@ class SignIn extends React.Component {
                                     onPress={handleSubmit}
                                     buttonStyle={{ marginTop: 20 }}
                                     backgroundColor='#0099FF'
+                                    loading={this.state.spinner}
                                 />
                                 <Button
                                     title='パスワード忘れ'
@@ -80,7 +88,16 @@ class SignIn extends React.Component {
         );
     }
 
-    handleSignIn = (values) => {
+    handleSignIn = async (values) => {
+
+        //spinner on
+        this.setState({ spinner: true });
+
+        //sleep（非同期処理）
+        await Devlib.sleep(1500);
+
+        //spinner off
+        this.setState({ spinner: false });
 
         //値の取得
         const email = values.email;
