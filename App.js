@@ -34,8 +34,11 @@ const HomeTab = createBottomTabNavigator(
             screen: createStackNavigator({ screen: Home }, {
                 defaultNavigationOptions: ({ navigation }) => ({
                     headerLeft: (
-                        <Icon name="bars" size={24} onPress={() => { navigation.openDrawer() }} style={{ paddingLeft: 20 }} color='#000' />
+                        <Icon name="bars" size={24} onPress={() => { navigation.openDrawer() }} style={{ paddingLeft: 20 }} color='#fff' />
                     ),
+                    headerStyle: {
+                        backgroundColor: '#0099FF',
+                    },
                 })
             }),
             navigationOptions: {
@@ -44,10 +47,13 @@ const HomeTab = createBottomTabNavigator(
         },
         Profile: {
             screen: createStackNavigator({ screen: Profile }, {
-                defaultNavigationOptions: ({navigation}) => ({
+                defaultNavigationOptions: ({ navigation }) => ({
                     headerLeft: (
-                        <Icon name="bars" size={24} onPress={() => { navigation.openDrawer() }} style={{ paddingLeft: 20 }} color='#000' />
+                        <Icon name="bars" size={24} onPress={() => { navigation.openDrawer() }} style={{ paddingLeft: 20 }} color='#fff' />
                     ),
+                    headerStyle: {
+                        backgroundColor: '#0099FF',
+                    },
                 })
             }),
             navigationOptions: {
@@ -73,6 +79,14 @@ const SignedOut = createStackNavigator(
         SignIn: { screen: SignIn },
         SignUp: { screen: SignUp },
         Forgot: { screen: Forgot }
+    },
+    {
+        defaultNavigationOptions: {
+            headerStyle: {
+                backgroundColor: '#0099FF',
+            },
+            headerTintColor: '#fff', // < Back ボタンの色変更
+        },
     }
 );
 
