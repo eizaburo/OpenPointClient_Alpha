@@ -26,8 +26,8 @@ class SignIn extends React.Component {
                 <ScrollView>
                     <Formik
                         initialValues={{
-                            email: '',
-                            password: ''
+                            email: 'user1@test.com',
+                            password: 'testtest'
                         }}
                         onSubmit={(values, { setSubmitting }) => this.handleSignIn(values, { setSubmitting })}
                         validationSchema={Yup.object().shape({
