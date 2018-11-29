@@ -24,11 +24,24 @@ import SignUp from './screens/SignUp';
 import Forgot from './screens/Forgot';
 import Drawer from './screens/Drawer';
 
+//icon
+import Icon from 'react-native-vector-icons/FontAwesome';
+
 //Tab
 const HomeTab = createBottomTabNavigator(
     {
-        Home: { screen: createStackNavigator({ screen: Home }) },
-        Profile: { screen: createStackNavigator({ screen: Profile }) },
+        Home: {
+            screen: createStackNavigator({ screen: Home }),
+            navigationOptions: {
+                tabBarIcon: ({ tintColor }) => <Icon size={24} name="home" color={tintColor} />
+            }
+        },
+        Profile: {
+            screen: createStackNavigator({ screen: Profile }),
+            navigationOptions: {
+                tabBarIcon: ({ tintColor }) => <Icon size={24} name="user" color={tintColor} />
+            }
+        },
     }
 );
 
@@ -58,7 +71,7 @@ class SwitchLayout extends React.Component {
         const SignedOutContainer = createAppContainer(SignedOut);
 
         //ここのtrue/falseを切り替えて手動で切り替えテスト
-        const signedIn =  this.props.state.userData.user.signedIn;
+        const signedIn = this.props.state.userData.user.signedIn;
 
         if (signedIn) {
             return (<SignedInContainer />);
