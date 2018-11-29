@@ -7,30 +7,65 @@ import { Card, Button, FormLabel, FormInput, FormValidationMessage } from 'react
 import { connect } from 'react-redux';
 import { updateUserData } from '../actions/userAction';
 
+//formik
+import { Formik, yupToFormErrors } from 'formik';
+import * as Yup from 'yup';
+
 
 class SignIn extends React.Component {
     render() {
         return (
             <View style={{ flex: 1, paddingVertical: 20 }}>
-                <Card title='サインイン'>
-                    <FormLabel>Email</FormLabel>
-                    <FormInput />
-                    <FormValidationMessage>errors</FormValidationMessage>
-                    <FormLabel>パスワード</FormLabel>
-                    <FormInput />
-                    <FormValidationMessage>errors</FormValidationMessage>
-                    <Button
-                        title='サインイン'
-                        onPress={() => this.handleSignIn()}
-                        buttonStyle={{ marginTop: 20 }}
-                        backgroundColor='#0099FF'
-                    />
-                    <Button
-                        title='パスワード忘れ'
-                        onPress={() => this.handleForgot()}
-                        buttonStyle={{ marginTop: 30 }}
-                    />
-                </Card>
+                <Formik
+                    initialValues={{
+                        email: '',
+                        password: ''
+                    }}
+                    onSubmit={(values) => this.handleSignIn(values)}
+                    validationSchema={Yup.object().shape({
+                        email: Yup
+                            .string()
+                            .email()
+                            .required(),
+                        password: Yup
+                            .string()
+                            .min(4)
+                            .required(),
+                    })}
+                >
+                    {
+                        ({ handleSubmit, handleChange, values, errors }) => (
+                            <Card title='サインイン'>
+                                <FormLabel>Email</FormLabel>
+                                <FormInput
+                                    autoCapitalize='none'
+                                    value={values.email}
+                                    onChangeText={handleChange('email')}
+                                />
+                                {(errors.email) && <FormValidationMessage>{errors.email}</FormValidationMessage>}
+                                <FormLabel>パスワード</FormLabel>
+                                <FormInput
+                                    autoCapitalize='none'
+                                    value={values.password}
+                                    onChangeText={handleChange('password')}
+                                    secureTextEntry
+                                />
+                                {(errors.password) && <FormValidationMessage>{errors.password}</FormValidationMessage>}
+                                <Button
+                                    title='サインイン'
+                                    onPress={handleSubmit}
+                                    buttonStyle={{ marginTop: 20 }}
+                                    backgroundColor='#0099FF'
+                                />
+                                <Button
+                                    title='パスワード忘れ'
+                                    onPress={() => this.handleForgot()}
+                                    buttonStyle={{ marginTop: 30 }}
+                                />
+                            </Card>
+                        )
+                    }
+                </Formik>
                 <Card title='サインアップ'>
                     <Button
                         title='サインアップ'
@@ -43,14 +78,21 @@ class SignIn extends React.Component {
         );
     }
 
-    handleSignIn = () => {
+    handleSignIn = (values) => {
+
+        //値の取得
+        const email = values.email;
+        const password = values.password;
+        //値の設定
         user = {
             id: 99,
             name: 'hoge',
-            email: 'hoge@hoge.com',
+            email: email,
             signedIn: true,
         }
+        //情報更新
         this.props.updateUserData(user);
+        //移動
         this.props.navigation.navigate('SignedIn')
     }
 
