@@ -24,7 +24,17 @@ class Forgot extends React.Component {
                     }}
                     onSubmit={(values) => this.handleForgot(values)}
                     validationSchema={Yup.object().shape({
-                        email: Yup.string().email('Emailの形式ではないようです。').required('Emailの入力は必須です。'),
+                        email: Yup
+                            .string()
+                            .email('Emailの形式ではないようです。')
+                            .required('Emailの入力は必須です。')
+                            .test('check-email-exist', '該当のメールがありません。', (value) => {
+                                if (value === 'test@test.com') {
+                                    return false;
+                                } else {
+                                    return true;
+                                }
+                            }),
                     })}
                 >
                     {
@@ -43,7 +53,7 @@ class Forgot extends React.Component {
                                     onPress={handleSubmit}
                                     buttonStyle={{ marginTop: 20 }}
                                     loading={this.state.spinner}
-                                    icon={{name: 'envelope', type: 'font-awesome'}} 
+                                    icon={{ name: 'envelope', type: 'font-awesome' }}
                                     borderRadius={20}
                                 />
                             </Card>
