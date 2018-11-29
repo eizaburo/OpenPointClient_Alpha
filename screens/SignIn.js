@@ -3,6 +3,11 @@ import { View, Text } from 'react-native';
 //react-native-elements
 import { Card, Button, FormLabel, FormInput, FormValidationMessage } from 'react-native-elements';
 
+//redux
+import { connect } from 'react-redux';
+import { updateUserData } from '../actions/userAction';
+
+
 class SignIn extends React.Component {
     render() {
         return (
@@ -39,6 +44,13 @@ class SignIn extends React.Component {
     }
 
     handleSignIn = () => {
+        user = {
+            id: 99,
+            name: 'hoge',
+            email: 'hoge@hoge.com',
+            signedIn: true,
+        }
+        this.props.updateUserData(user);
         this.props.navigation.navigate('SignedIn')
     }
 
@@ -51,4 +63,18 @@ class SignIn extends React.Component {
     }
 }
 
-export default SignIn;
+//redux
+const mapStateToProps = state => (
+    {
+        state: state,
+    }
+);
+
+const mapDispatchToProps = dispatch => (
+    {
+        updateUserData: (user) => dispatch(updateUserData(user)),
+    }
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(SignIn);
+// export default SignIn;

@@ -10,6 +10,12 @@ import {
     createAppContainer
 } from 'react-navigation';
 
+//redux
+import { Provider } from 'react-redux';
+import createStore from './createStore';
+import { connect } from 'react-redux';
+import { updateUserData } from './actions/userAction';
+
 //各Component読み込み
 import Home from './screens/Home';
 import Profile from './screens/Profile';
@@ -52,7 +58,7 @@ class SwitchLayout extends React.Component {
         const SignedOutContainer = createAppContainer(SignedOut);
 
         //ここのtrue/falseを切り替えて手動で切り替えテスト
-        const signedIn = false;
+        const signedIn =  this.props.state.userData.user.signedIn;
 
         if (signedIn) {
             return (<SignedInContainer />);
@@ -61,11 +67,18 @@ class SwitchLayout extends React.Component {
         }
     }
 }
+const mapStateToProps = state => ({ state: state });
+const mapDispatchToProps = dispatch => ({ updateUserData: (user) => dispatch(updateUserData(user)) });
+const SwitchLayoutContainer = connect(mapStateToProps, mapDispatchToProps)(SwitchLayout);
+
+const { store, persistor } = createStore();
 
 export default class App extends React.Component {
     render() {
         return (
-            <SwitchLayout />
+            <Provider store={store}>
+                <SwitchLayoutContainer />
+            </Provider>
         );
     }
 }
