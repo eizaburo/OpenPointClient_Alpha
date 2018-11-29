@@ -25,7 +25,7 @@ class SignIn extends React.Component {
                     validationSchema={Yup.object().shape({
                         email: Yup
                             .string()
-                            .email('Emailの形式ではないようです。。')
+                            .email('Emailの形式ではないようです。')
                             .required('Emailの入力は必須です。'),
                         password: Yup
                             .string()
