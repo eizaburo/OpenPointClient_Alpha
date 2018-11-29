@@ -46,6 +46,7 @@ class Forgot extends React.Component {
                                     value={values.email}
                                     onChangeText={handleChange('email')}
                                     onBlur={handleBlur('email')}
+                                    placeholder={'reset@bluecode.jp'}
                                 />
                                 {touched.email && <FormValidationMessage>{errors.email}</FormValidationMessage>}
                                 <Button

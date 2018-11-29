@@ -67,6 +67,7 @@ class SignUp extends React.Component {
                                     value={values.name}
                                     onChangeText={handleChange('name')}
                                     onBlur={handleBlur('name')}
+                                    placeholder={'bluecode'}
                                 />
                                 {(touched.name && errors.name) && <FormValidationMessage>{errors.name}</FormValidationMessage>}
                                 <FormLabel>Email（サインインIDとなります）</FormLabel>
@@ -75,6 +76,7 @@ class SignUp extends React.Component {
                                     value={values.email}
                                     onChangeText={handleChange('email')}
                                     onBlur={handleBlur('email')}
+                                    placeholder={'signup@bluecode.jp'}
                                 />
                                 {(touched.email && errors.email) && <FormValidationMessage>{errors.email}</FormValidationMessage>}
                                 <FormLabel>パスワード</FormLabel>
@@ -83,6 +85,7 @@ class SignUp extends React.Component {
                                     value={values.password}
                                     onChangeText={handleChange('password')}
                                     onBlur={handleBlur('password')}
+                                    placeholder={'password'}
                                     secureTextEntry
                                 />
                                 {(touched.password && errors.password) && <FormValidationMessage>{errors.password}</FormValidationMessage>}
@@ -92,6 +95,7 @@ class SignUp extends React.Component {
                                     value={values.passwordConfirm}
                                     onChangeText={handleChange('passwordConfirm')}
                                     onBlur={handleBlur('passwordConfirm')}
+                                    placeholder={'password'}
                                     secureTextEntry
                                 />
                                 {(touched.passwordConfirm && errors.passwordConfirm) && <FormValidationMessage>{errors.passwordConfirm}</FormValidationMessage>}

@@ -49,6 +49,7 @@ class SignIn extends React.Component {
                                     value={values.email}
                                     onChangeText={handleChange('email')}
                                     onBlur={handleBlur('email')}
+                                    placeholder={'signin@bluecode.jp'}
                                 />
                                 {(touched.email && errors.email) && <FormValidationMessage>{errors.email}</FormValidationMessage>}
                                 <FormLabel>パスワード</FormLabel>
@@ -57,6 +58,7 @@ class SignIn extends React.Component {
                                     value={values.password}
                                     onChangeText={handleChange('password')}
                                     onBlur={handleBlur('password')}
+                                    placeholder={'password'}
                                     secureTextEntry
                                 />
                                 {(touched.password && errors.password) && <FormValidationMessage>{errors.password}</FormValidationMessage>}
