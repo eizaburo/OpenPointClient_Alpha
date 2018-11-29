@@ -120,7 +120,6 @@ const HomeTab = createBottomTabNavigator(
 );
 
 
-
 //SignedIn
 const SignedIn = createDrawerNavigator(
     {
@@ -158,9 +157,6 @@ class SwitchLayout extends React.Component {
     render() {
         const SignedInContainer = createAppContainer(SignedIn);
         const SignedOutContainer = createAppContainer(SignedOut);
-
-        ///
-        // const page = this.props.state.navData.nav.page;
 
         //ここのtrue/falseを切り替えて手動で切り替えテスト
         const signedIn = this.props.state.userData.user.signedIn;

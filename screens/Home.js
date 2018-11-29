@@ -9,11 +9,12 @@ import { updateUserData } from '../actions/userAction';
 
 class Home extends React.Component {
 
-    componentDidMount() {
-        
+    componentDidMount() {  
         //もしpageがセットされていて
         const page = this.props.state.navData.nav.page;
+        //空じゃなかったら
         if (page !== '') {
+            //指定されたページへ移動
             this.props.navigation.navigate(page);
         }
     }
