@@ -101,7 +101,12 @@ const SignedIn = createDrawerNavigator(
 //SignedOut
 const SignedOut = createStackNavigator(
     {
-        SignIn: { screen: SignIn },
+        SignIn: {
+            screen: SignIn,
+            navigationOptions: () => ({
+                title: 'OpenPoint Client'
+            })
+        },
         SignUp: { screen: SignUp },
         Forgot: { screen: Forgot }
     },
