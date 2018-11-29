@@ -12,6 +12,28 @@ class Profile extends React.Component {
     render() {
         return (
             <View style={{ flex: 1, paddingVertical: 20 }}>
+                <Card title='ユーザー情報'>
+                    <FormLabel>ID</FormLabel>
+                    <FormInput
+                        value={this.props.state.userData.user.id.toString()}
+                        editable={false}
+                    />
+                    <FormLabel>名前</FormLabel>
+                    <FormInput
+                        value={this.props.state.userData.user.name}
+                        editable={false}
+                    />
+                    <FormLabel>Email</FormLabel>
+                    <FormInput
+                        value={this.props.state.userData.user.email}
+                        editable={false}
+                    />
+                    <FormLabel>サインイン</FormLabel>
+                    <FormInput
+                        value={this.props.state.userData.user.signedIn.toString()}
+                        editable={false}
+                    />
+                </Card>
                 <Card title='サインアウト'>
                     <Button
                         title='サインアウト'
