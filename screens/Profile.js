@@ -40,6 +40,7 @@ class Profile extends React.Component {
                         onPress={() => this.handleSignOut()}
                         buttonStyle={{ marginTop: 0 }}
                         icon={{name: 'sign-out', type: 'font-awesome'}} 
+                        borderRadius={20}
                     />
                 </Card>
             </View>

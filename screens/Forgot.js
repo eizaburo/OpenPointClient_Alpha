@@ -44,6 +44,7 @@ class Forgot extends React.Component {
                                     buttonStyle={{ marginTop: 20 }}
                                     loading={this.state.spinner}
                                     icon={{name: 'envelope', type: 'font-awesome'}} 
+                                    borderRadius={20}
                                 />
                             </Card>
                         )

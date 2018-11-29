@@ -67,14 +67,16 @@ class SignIn extends React.Component {
                                     backgroundColor='#0099FF'
                                     loading={this.state.spinner}
                                     disabled={isSubmitting}
-                                    icon={{name: 'sign-in', type: 'font-awesome'}} 
-                                    
+                                    icon={{ name: 'sign-in', type: 'font-awesome' }}
+                                    borderRadius={20}
+
                                 />
                                 <Button
                                     title='パスワード忘れ'
                                     onPress={() => this.handleForgot()}
                                     buttonStyle={{ marginTop: 30 }}
-                                    icon={{name: 'question-circle', type: 'font-awesome'}} 
+                                    icon={{ name: 'question-circle', type: 'font-awesome' }}
+                                    borderRadius={20}
                                 />
                             </Card>
                         )
@@ -86,7 +88,8 @@ class SignIn extends React.Component {
                         onPress={() => this.handleSignUp()}
                         buttonStyle={{ marginTop: 0 }}
                         backgroundColor='#CC9933'
-                        icon={{name: 'user-plus', type: 'font-awesome'}} 
+                        icon={{ name: 'user-plus', type: 'font-awesome' }}
+                        borderRadius={20}
                     />
                 </Card>
             </View>

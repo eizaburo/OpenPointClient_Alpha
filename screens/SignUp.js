@@ -96,6 +96,7 @@ class SignUp extends React.Component {
                                     loading={this.state.spinner}
                                     disabled={isSubmitting}
                                     icon={{name: 'user-plus', type: 'font-awesome'}} 
+                                    borderRadius={20}
                                 />
                             </Card>
                         )
