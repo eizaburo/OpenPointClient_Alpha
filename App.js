@@ -137,7 +137,7 @@ const SignedOut = createStackNavigator(
         SignIn: {
             screen: SignIn,
             navigationOptions: () => ({
-                title: 'OpenPoint Client'
+                title: 'FPM Point Client'
             })
         },
         SignUp: { screen: SignUp },
