@@ -24,9 +24,34 @@ import SignUp from './screens/SignUp';
 import Forgot from './screens/Forgot';
 import Drawer from './screens/Drawer';
 import Identiry from './screens/Identiry';
+import ScanTop from './screens/ScanTop';
+import ScanCamera from './screens/ScanCamera';
 
 //icon
 import Icon from 'react-native-vector-icons/FontAwesome';
+
+//Scan
+const ScanStack = createStackNavigator(
+    {
+        ScanTop: {
+            screen: ScanTop,
+            navigationOptions: ({ navigation }) => ({
+                headerLeft: (
+                    <Icon name="bars" size={24} onPress={() => { navigation.openDrawer() }} style={{ paddingLeft: 20 }} color='#fff' />
+                ),
+            })
+        },
+        ScanCamera: { screen: ScanCamera },
+    },
+    {
+        defaultNavigationOptions: ({ navigation }) => ({
+            headerStyle: {
+                backgroundColor: '#0099FF',
+            },
+            headerTintColor: '#fff', // < Back ボタンの色変更
+        }),
+    }
+);
 
 //Tab
 const HomeTab = createBottomTabNavigator(
@@ -61,6 +86,12 @@ const HomeTab = createBottomTabNavigator(
                 tabBarIcon: ({ tintColor }) => <Icon size={24} name="qrcode" color={tintColor} />
             }
         },
+        Scan: {
+            screen: ScanStack,
+            navigationOptions: {
+                tabBarIcon: ({ tintColor }) => <Icon size={24} name="camera" color={tintColor} />
+            }
+        },
         Profile: {
             screen: createStackNavigator({ screen: Profile }, {
                 defaultNavigationOptions: ({ navigation }) => ({
@@ -83,10 +114,12 @@ const HomeTab = createBottomTabNavigator(
                 backgroundColor: '#0099FF',
             },
             inactiveTintColor: '#bbb',
-            activeTintColor: '#fff'
+            activeTintColor: '#fff',
         }
     }
 );
+
+
 
 //SignedIn
 const SignedIn = createDrawerNavigator(
@@ -104,7 +137,7 @@ const SignedOut = createStackNavigator(
         SignIn: {
             screen: SignIn,
             navigationOptions: () => ({
-                title: 'OpenPoint Client'
+                title: 'FPM Point Client'
             })
         },
         SignUp: { screen: SignUp },
@@ -125,6 +158,9 @@ class SwitchLayout extends React.Component {
     render() {
         const SignedInContainer = createAppContainer(SignedIn);
         const SignedOutContainer = createAppContainer(SignedOut);
+
+        //
+        // const page = this.props.state.navData.nav.page;
 
         //ここのtrue/falseを切り替えて手動で切り替えテスト
         const signedIn = this.props.state.userData.user.signedIn;

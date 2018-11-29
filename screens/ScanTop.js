@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, ScrollView } from 'react-native';
 //react-native-elements
 import { Card, Button, FormLabel, FormInput, FormValidationMessage } from 'react-native-elements';
 
@@ -9,33 +9,29 @@ import { updateUserData } from '../actions/userAction';
 import { updateQrData } from '../actions/qrAction';
 import { updateNavData } from '../actions/navAction';
 
-
-class Drawer extends React.Component {
+class ScanTop extends React.Component {
     render() {
         return (
-            <View style={{ flex: 1, paddingVertical: 80 }}>
+            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                <Text>ScanTop</Text>
+                <Text>Data: {this.props.state.qrData.qr.data}</Text>
                 <Button
-                    title='サインアウト'
-                    onPress={() => this.handleSignOut()}
-                    buttonStyle={{ marginTop: 0 }}
-                    icon={{name: 'sign-out', type: 'font-awesome'}} 
+                    title='QRコードを読み取る'
+                    onPress={() => this.handleReadQr()}
+                    buttonStyle={{ marginTop: 20 }}
                     borderRadius={20}
+                    icon={{ name: 'qrcode', type: 'font-awesome' }}
                 />
             </View>
         );
     }
 
-    handleSignOut = () => {
-        user = {
-            id: 0,
-            name: '',
-            email: '',
-            signedIn: false,
-        }
-        this.props.updateUserData(user);
-        this.props.updateNavData('');
-        this.props.updateQrData('');
-        this.props.navigation.navigate('SignedOut');
+    handleReadQr = () => {
+        // alert('hoge')
+        this.props.navigation.navigate('ScanCamera')
+        // this.props.updateNavData('ScanTop')
+        // this.props.updateQrData('foo');
+        
     }
 }
 
@@ -54,6 +50,5 @@ const mapDispatchToProps = dispatch => (
     }
 );
 
-
-export default connect(mapStateToProps, mapDispatchToProps)(Drawer);
-// export default Drawer;
+export default connect(mapStateToProps, mapDispatchToProps)(ScanTop);
+// export default ScanTop;
