@@ -21,8 +21,8 @@ import Drawer from './screens/Drawer';
 //Tab
 const HomeTab = createBottomTabNavigator(
     {
-        Home: { screen: Home },
-        Profile: { screen: Profile },
+        Home: { screen: createStackNavigator({ screen: Home }) },
+        Profile: { screen: createStackNavigator({ screen: Profile }) },
     }
 );
 
