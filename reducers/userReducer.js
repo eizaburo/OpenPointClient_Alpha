@@ -4,7 +4,7 @@ const initialState = {
         name: 'hoge',
         email: 'hoge@test.com',
         signedIn: false,
-    }
+    },
 }
 
 const userReducer = (state = initialState, action) => {
