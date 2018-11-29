@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, ScrollView } from 'react-native';
 //react-native-elements
 import { Card, Button, FormLabel, FormInput, FormValidationMessage } from 'react-native-elements';
 
@@ -23,77 +23,79 @@ class SignIn extends React.Component {
     render() {
         return (
             <View style={{ flex: 1, paddingVertical: 20 }}>
-                <Formik
-                    initialValues={{
-                        email: '',
-                        password: ''
-                    }}
-                    onSubmit={(values, { setSubmitting }) => this.handleSignIn(values, { setSubmitting })}
-                    validationSchema={Yup.object().shape({
-                        email: Yup
-                            .string()
-                            .email('Emailの形式ではないようです。')
-                            .required('Emailの入力は必須です。'),
-                        password: Yup
-                            .string()
-                            .min(4, '4文字以上で入力して下さい。')
-                            .required('パスワードの入力は必須です。'),
-                    })}
-                >
-                    {
-                        ({ handleSubmit, handleChange, values, errors, touched, handleBlur, isSubmitting }) => (
-                            <Card title='サインイン'>
-                                <FormLabel>Email</FormLabel>
-                                <FormInput
-                                    autoCapitalize='none'
-                                    value={values.email}
-                                    onChangeText={handleChange('email')}
-                                    onBlur={handleBlur('email')}
-                                    placeholder={'signin@bluecode.jp'}
-                                />
-                                {(touched.email && errors.email) && <FormValidationMessage>{errors.email}</FormValidationMessage>}
-                                <FormLabel>パスワード</FormLabel>
-                                <FormInput
-                                    autoCapitalize='none'
-                                    value={values.password}
-                                    onChangeText={handleChange('password')}
-                                    onBlur={handleBlur('password')}
-                                    placeholder={'password'}
-                                    secureTextEntry
-                                />
-                                {(touched.password && errors.password) && <FormValidationMessage>{errors.password}</FormValidationMessage>}
-                                <Button
-                                    title='サインイン'
-                                    onPress={handleSubmit}
-                                    buttonStyle={{ marginTop: 20 }}
-                                    backgroundColor='#0099FF'
-                                    loading={this.state.spinner}
-                                    disabled={isSubmitting}
-                                    icon={{ name: 'sign-in', type: 'font-awesome' }}
-                                    borderRadius={20}
+                <ScrollView>
+                    <Formik
+                        initialValues={{
+                            email: '',
+                            password: ''
+                        }}
+                        onSubmit={(values, { setSubmitting }) => this.handleSignIn(values, { setSubmitting })}
+                        validationSchema={Yup.object().shape({
+                            email: Yup
+                                .string()
+                                .email('Emailの形式ではないようです。')
+                                .required('Emailの入力は必須です。'),
+                            password: Yup
+                                .string()
+                                .min(4, '4文字以上で入力して下さい。')
+                                .required('パスワードの入力は必須です。'),
+                        })}
+                    >
+                        {
+                            ({ handleSubmit, handleChange, values, errors, touched, handleBlur, isSubmitting }) => (
+                                <Card title='サインイン'>
+                                    <FormLabel>Email</FormLabel>
+                                    <FormInput
+                                        autoCapitalize='none'
+                                        value={values.email}
+                                        onChangeText={handleChange('email')}
+                                        onBlur={handleBlur('email')}
+                                        placeholder={'signin@bluecode.jp'}
+                                    />
+                                    {(touched.email && errors.email) && <FormValidationMessage>{errors.email}</FormValidationMessage>}
+                                    <FormLabel>パスワード</FormLabel>
+                                    <FormInput
+                                        autoCapitalize='none'
+                                        value={values.password}
+                                        onChangeText={handleChange('password')}
+                                        onBlur={handleBlur('password')}
+                                        placeholder={'password'}
+                                        secureTextEntry
+                                    />
+                                    {(touched.password && errors.password) && <FormValidationMessage>{errors.password}</FormValidationMessage>}
+                                    <Button
+                                        title='サインイン'
+                                        onPress={handleSubmit}
+                                        buttonStyle={{ marginTop: 20 }}
+                                        backgroundColor='#0099FF'
+                                        loading={this.state.spinner}
+                                        disabled={isSubmitting}
+                                        icon={{ name: 'sign-in', type: 'font-awesome' }}
+                                        borderRadius={20}
 
-                                />
-                                <Button
-                                    title='パスワード忘れ'
-                                    onPress={() => this.handleForgot()}
-                                    buttonStyle={{ marginTop: 30 }}
-                                    icon={{ name: 'question-circle', type: 'font-awesome' }}
-                                    borderRadius={20}
-                                />
-                            </Card>
-                        )
-                    }
-                </Formik>
-                <Card title='サインアップ'>
-                    <Button
-                        title='サインアップ'
-                        onPress={() => this.handleSignUp()}
-                        buttonStyle={{ marginTop: 0 }}
-                        backgroundColor='#CC9933'
-                        icon={{ name: 'user-plus', type: 'font-awesome' }}
-                        borderRadius={20}
-                    />
-                </Card>
+                                    />
+                                    <Button
+                                        title='パスワード忘れ'
+                                        onPress={() => this.handleForgot()}
+                                        buttonStyle={{ marginTop: 30 }}
+                                        icon={{ name: 'question-circle', type: 'font-awesome' }}
+                                        borderRadius={20}
+                                    />
+                                </Card>
+                            )
+                        }
+                    </Formik>
+                    <Card title='サインアップ'>
+                        <Button
+                            title='サインアップ'
+                            onPress={() => this.handleSignUp()}
+                            buttonStyle={{ marginTop: 0 }}
+                            backgroundColor='#CC9933'
+                            icon={{ name: 'user-plus', type: 'font-awesome' }}
+                            borderRadius={20}
+                        />
+                    </Card>
+                </ScrollView>
             </View>
         );
     }
