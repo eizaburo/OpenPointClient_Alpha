@@ -25,32 +25,34 @@ class SignIn extends React.Component {
                     validationSchema={Yup.object().shape({
                         email: Yup
                             .string()
-                            .email()
-                            .required(),
+                            .email('Emailの形式ではないようです。。')
+                            .required('Emailの入力は必須です。'),
                         password: Yup
                             .string()
-                            .min(4)
-                            .required(),
+                            .min(4,'4文字以上で入力して下さい。')
+                            .required('パスワードの入力は必須です。'),
                     })}
                 >
                     {
-                        ({ handleSubmit, handleChange, values, errors }) => (
+                        ({ handleSubmit, handleChange, values, errors, touched, handleBlur }) => (
                             <Card title='サインイン'>
                                 <FormLabel>Email</FormLabel>
                                 <FormInput
                                     autoCapitalize='none'
                                     value={values.email}
                                     onChangeText={handleChange('email')}
+                                    onBlur={handleBlur('email')}
                                 />
-                                {(errors.email) && <FormValidationMessage>{errors.email}</FormValidationMessage>}
+                                {(touched.email && errors.email) && <FormValidationMessage>{errors.email}</FormValidationMessage>}
                                 <FormLabel>パスワード</FormLabel>
                                 <FormInput
                                     autoCapitalize='none'
                                     value={values.password}
                                     onChangeText={handleChange('password')}
+                                    onBlur={handleBlur('password')}
                                     secureTextEntry
                                 />
-                                {(errors.password) && <FormValidationMessage>{errors.password}</FormValidationMessage>}
+                                {(touched.password && errors.password) && <FormValidationMessage>{errors.password}</FormValidationMessage>}
                                 <Button
                                     title='サインイン'
                                     onPress={handleSubmit}
