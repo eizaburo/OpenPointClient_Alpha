@@ -40,7 +40,7 @@ class SignUp extends React.Component {
                                     .max(16, '名前は4文字以上16文字以内で入力して下さい。')
                                     .required('名前の入力は必須です。'),
                                 email: Yup
-                                    .string()
+                                    .string().matches(/^(^[a-zA-Z0-9\-_\.]+$)/, '半角英数字のみで入力してください。')
                                     .email('Emailの形式ではないようです。')
                                     .required('Emailの入力は必須です。')
                                     .test('check-mail-exist', '該当のアドレスは既に登録されています。', (value) => {
