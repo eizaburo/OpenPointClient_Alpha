@@ -11,7 +11,15 @@ import { updateUserData } from '../actions/userAction';
 import { Formik, yupToFormErrors } from 'formik';
 import * as Yup from 'yup';
 
+//Devlig
+import * as Devlib from '../Devlib';
+
 class SignUp extends React.Component {
+
+    state = {
+        spinner: false,
+    }
+
     render() {
         return (
             <View style={{ flex: 1, paddingVertical: 20 }}>
@@ -85,6 +93,7 @@ class SignUp extends React.Component {
                                     onPress={handleSubmit}
                                     buttonStyle={{ marginTop: 20 }}
                                     backgroundColor='#CC9933'
+                                    loading={this.state.spinner}
                                 />
                             </Card>
                         )
@@ -94,7 +103,16 @@ class SignUp extends React.Component {
         );
     }
 
-    handleSignUp = (values) => {
+    handleSignUp = async (values) => {
+
+        //spinner on
+        this.setState({ spinner: true });
+
+        //sleep（非同期処理）
+        await Devlib.sleep(1500);
+
+        // //spinner off
+        // this.setState({ spinner: false });
 
         //値の取得
         const name = values.name;

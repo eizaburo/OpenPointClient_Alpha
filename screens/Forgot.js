@@ -7,7 +7,14 @@ import { Card, Button, FormLabel, FormInput, FormValidationMessage } from 'react
 import { Formik, yupToFormErrors } from 'formik';
 import * as Yup from 'yup';
 
+//Devlig
+import * as Devlib from '../Devlib';
+
 class Forgot extends React.Component {
+
+    state = {
+        spinner: false,
+    }
     render() {
         return (
             <View style={{ flex: 1, paddingVertical: 20 }}>
@@ -35,6 +42,7 @@ class Forgot extends React.Component {
                                     title='リセットメールを送信'
                                     onPress={handleSubmit}
                                     buttonStyle={{ marginTop: 20 }}
+                                    loading={this.state.spinner}
                                 />
                             </Card>
                         )
@@ -45,7 +53,17 @@ class Forgot extends React.Component {
     }
 
     //リセットメール送信ボタンを押したとき
-    handleForgot = (values) => {
+    handleForgot = async (values) => {
+
+        //spinner on
+        this.setState({ spinner: true });
+
+        //sleep（非同期処理）
+        await Devlib.sleep(1500);
+
+        // //spinner off
+        this.setState({ spinner: false });
+
         alert('リセットメールを送信しました。')
     }
 }
