@@ -43,6 +43,7 @@ class Forgot extends React.Component {
                                     onPress={handleSubmit}
                                     buttonStyle={{ marginTop: 20 }}
                                     loading={this.state.spinner}
+                                    icon={{name: 'envelope', type: 'font-awesome'}} 
                                 />
                             </Card>
                         )

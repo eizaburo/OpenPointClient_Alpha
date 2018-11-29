@@ -95,6 +95,7 @@ class SignUp extends React.Component {
                                     backgroundColor='#CC9933'
                                     loading={this.state.spinner}
                                     disabled={isSubmitting}
+                                    icon={{name: 'user-plus', type: 'font-awesome'}} 
                                 />
                             </Card>
                         )
