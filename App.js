@@ -23,6 +23,7 @@ import SignIn from './screens/SignIn';
 import SignUp from './screens/SignUp';
 import Forgot from './screens/Forgot';
 import Drawer from './screens/Drawer';
+import Identiry from './screens/Identiry';
 
 //icon
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -43,6 +44,21 @@ const HomeTab = createBottomTabNavigator(
             }),
             navigationOptions: {
                 tabBarIcon: ({ tintColor }) => <Icon size={24} name="home" color={tintColor} />
+            }
+        },
+        Identiry: {
+            screen: createStackNavigator({ screen: Identiry }, {
+                defaultNavigationOptions: ({ navigation }) => ({
+                    headerStyle: {
+                        backgroundColor: '#0099FF',
+                    },
+                    headerLeft: (
+                        <Icon name="bars" size={24} onPress={() => { navigation.openDrawer() }} style={{ paddingLeft: 20 }} color='#fff' />
+                    ),
+                })
+            }),
+            navigationOptions: {
+                tabBarIcon: ({ tintColor }) => <Icon size={24} name="qrcode" color={tintColor} />
             }
         },
         Profile: {
