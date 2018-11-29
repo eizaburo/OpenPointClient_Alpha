@@ -25,10 +25,10 @@ class SignUp extends React.Component {
             <View style={{ flex: 1, paddingVertical: 20 }}>
                 <Formik
                     initialValues={{
-                        name: 'test',
-                        email: 'test@test.com',
-                        password: 'testtest',
-                        passwordConfirm: 'testtest',
+                        name: '',
+                        email: '',
+                        password: '',
+                        passwordConfirm: '',
                     }}
                     onSubmit={(values, { setSubmitting }) => this.handleSignUp(values, { setSubmitting })}
                     validationSchema={Yup.object().shape({

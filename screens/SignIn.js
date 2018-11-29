@@ -25,8 +25,8 @@ class SignIn extends React.Component {
             <View style={{ flex: 1, paddingVertical: 20 }}>
                 <Formik
                     initialValues={{
-                        email: 'test@test.com',
-                        password: 'testtes'
+                        email: '',
+                        password: ''
                     }}
                     onSubmit={(values, { setSubmitting }) => this.handleSignIn(values, { setSubmitting })}
                     validationSchema={Yup.object().shape({
