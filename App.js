@@ -31,13 +31,25 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 const HomeTab = createBottomTabNavigator(
     {
         Home: {
-            screen: createStackNavigator({ screen: Home }),
+            screen: createStackNavigator({ screen: Home }, {
+                defaultNavigationOptions: ({ navigation }) => ({
+                    headerLeft: (
+                        <Icon name="bars" size={24} onPress={() => { navigation.openDrawer() }} style={{ paddingLeft: 20 }} color='#000' />
+                    ),
+                })
+            }),
             navigationOptions: {
                 tabBarIcon: ({ tintColor }) => <Icon size={24} name="home" color={tintColor} />
             }
         },
         Profile: {
-            screen: createStackNavigator({ screen: Profile }),
+            screen: createStackNavigator({ screen: Profile }, {
+                defaultNavigationOptions: ({navigation}) => ({
+                    headerLeft: (
+                        <Icon name="bars" size={24} onPress={() => { navigation.openDrawer() }} style={{ paddingLeft: 20 }} color='#000' />
+                    ),
+                })
+            }),
             navigationOptions: {
                 tabBarIcon: ({ tintColor }) => <Icon size={24} name="user" color={tintColor} />
             }
