@@ -40,7 +40,14 @@ class SignUp extends React.Component {
                         email: Yup
                             .string()
                             .email('Emailの形式ではないようです。')
-                            .required('Emailの入力は必須です。'),
+                            .required('Emailの入力は必須です。')
+                            .test('check-mail-exist', '該当のアドレスは既に登録されています。', (value) => {
+                                if (value === 'test@test.com') {
+                                    return false;
+                                } else {
+                                    return true;
+                                }
+                            }),
                         password: Yup
                             .string()
                             .min(4, '4文字以上で入力して下さい。')
@@ -95,7 +102,7 @@ class SignUp extends React.Component {
                                     backgroundColor='#CC9933'
                                     loading={this.state.spinner}
                                     disabled={isSubmitting}
-                                    icon={{name: 'user-plus', type: 'font-awesome'}} 
+                                    icon={{ name: 'user-plus', type: 'font-awesome' }}
                                     borderRadius={20}
                                 />
                             </Card>
