@@ -27,6 +27,9 @@ import Identiry from './screens/Identiry';
 import ScanTop from './screens/ScanTop';
 import ScanCamera from './screens/ScanCamera';
 
+//Auth
+import { isSignedIn } from './Auth';
+
 //icon
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -152,33 +155,47 @@ const SignedOut = createStackNavigator(
     }
 );
 
-//SwitchLayout
-class SwitchLayout extends React.Component {
-    render() {
-        const SignedInContainer = createAppContainer(SignedIn);
-        const SignedOutContainer = createAppContainer(SignedOut);
-
-        //ここのtrue/falseを切り替えて手動で切り替えテスト
-        const signedIn = this.props.state.userData.user.signedIn;
-
-        if (signedIn) {
-            return (<SignedInContainer />);
-        } else {
-            return (<SignedOutContainer />);
+//Switch
+const createRootNavigator = (signedIn = false) => {
+    return createSwitchNavigator(
+        {
+            SignedIn: { screen: SignedIn },
+            SignedOut: { screen: SignedOut },
+        },
+        {
+            initialRouteName: signedIn ? 'SignedIn' : 'SignedOut'
         }
-    }
+    );
 }
-const mapStateToProps = state => ({ state: state });
-const mapDispatchToProps = dispatch => ({ updateUserData: (user) => dispatch(updateUserData(user)) });
-const SwitchLayoutContainer = connect(mapStateToProps, mapDispatchToProps)(SwitchLayout);
 
 const { store, persistor } = createStore();
 
 export default class App extends React.Component {
+
+    state = {
+        signedIn: false,
+        checkSignedIn: false,
+    }
+
+    async componentDidMount() {
+        try {
+            const res = await isSignedIn();
+            this.setState({
+                signedIn: res.signedIn,
+                checkSignedIn: true,
+            });
+        } catch (errror) {
+            console.log(error);
+        }
+    }
+
     render() {
+        const { checkSignedIn, signedIn } = this.state;
+        if (!checkSignedIn) return null;
+        const Layout = createAppContainer(createRootNavigator(signedIn));
         return (
             <Provider store={store}>
-                <SwitchLayoutContainer />
+                <Layout />
             </Provider>
         );
     }

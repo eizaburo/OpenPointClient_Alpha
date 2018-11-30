@@ -7,8 +7,9 @@ import { Card, Button, FormLabel, FormInput, FormValidationMessage } from 'react
 import { connect } from 'react-redux';
 import { updateUserData } from '../actions/userAction';
 import { updateQrData } from '../actions/qrAction';
-import { updateNavData } from '../actions/navAction';
 
+//Auth
+import { onSignOut } from '../Auth';
 
 class Profile extends React.Component {
     render() {
@@ -51,7 +52,7 @@ class Profile extends React.Component {
         );
     }
 
-    handleSignOut = () => {
+    handleSignOut = async () => {
         user = {
             id: 0,
             name: '',
@@ -59,8 +60,13 @@ class Profile extends React.Component {
             signedIn: false,
         }
         this.props.updateUserData(user);
-        this.props.updateNavData('');
         this.props.updateQrData('');
+        //サインアウト
+        try {
+            await onSignOut();
+        } catch (error) {
+            console.log(error);
+        }
         this.props.navigation.navigate('SignedOut');
     }
 }
@@ -76,7 +82,6 @@ const mapDispatchToProps = dispatch => (
     {
         updateUserData: (user) => dispatch(updateUserData(user)),
         updateQrData: (data) => dispatch(updateQrData(data)),
-        updateNavData: (page) => dispatch(updateNavData(page)),
     }
 );
 

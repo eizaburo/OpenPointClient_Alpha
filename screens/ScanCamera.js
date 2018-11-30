@@ -7,7 +7,6 @@ import { Card, Button, FormLabel, FormInput, FormValidationMessage } from 'react
 import { connect } from 'react-redux';
 import { updateUserData } from '../actions/userAction';
 import { updateQrData } from '../actions/qrAction';
-import { updateNavData } from '../actions/navAction';
 
 //expo for readBarcode
 import { BarCodeScanner, Permissions } from 'expo';
@@ -52,10 +51,7 @@ class ScanCamera extends React.Component {
 
     handleBarCodeScanned = ({ type, data }) => {
         this.props.updateQrData(data);
-        this.props.updateNavData('ScanTop') //移動元を記憶
-        // this.props.navigation.navigate('ScanTop');←storeをupdateしたタイミングでHomeに行っています。。。
-        //仕方がないので、Home側で移動元をpageとして受け取り、移動元がScanTopなら、そちらへリダイレクトするようにする。暫定策。
-        //サインアウト時にpagevパラメータも消去する
+        this.props.navigation.navigate('ScanTop');
     }
 }
 
@@ -70,7 +66,6 @@ const mapDispatchToProps = dispatch => (
     {
         updateUserData: (user) => dispatch(updateUserData(user)),
         updateQrData: (data) => dispatch(updateQrData(data)),
-        updateNavData: (page) => dispatch(updateNavData(page)),
     }
 );
 

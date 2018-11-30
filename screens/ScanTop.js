@@ -7,7 +7,6 @@ import { Card, Button, FormLabel, FormInput, FormValidationMessage } from 'react
 import { connect } from 'react-redux';
 import { updateUserData } from '../actions/userAction';
 import { updateQrData } from '../actions/qrAction';
-import { updateNavData } from '../actions/navAction';
 
 class ScanTop extends React.Component {
     render() {
@@ -27,11 +26,8 @@ class ScanTop extends React.Component {
     }
 
     handleReadQr = () => {
-        // alert('hoge')
+        this.props.updateQrData('');
         this.props.navigation.navigate('ScanCamera')
-        // this.props.updateNavData('ScanTop')
-        // this.props.updateQrData('foo');
-        
     }
 }
 
@@ -46,7 +42,6 @@ const mapDispatchToProps = dispatch => (
     {
         updateUserData: (user) => dispatch(updateUserData(user)),
         updateQrData: (data) => dispatch(updateQrData(data)),
-        updateNavData: (page) => dispatch(updateNavData(page)),
     }
 );
 

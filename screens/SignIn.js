@@ -14,6 +14,9 @@ import * as Yup from 'yup';
 //Devlig
 import * as Devlib from '../Devlib';
 
+//Auth
+import { onSignIn } from '../Auth';
+
 class SignIn extends React.Component {
 
     state = {
@@ -125,6 +128,12 @@ class SignIn extends React.Component {
         }
         //情報更新
         this.props.updateUserData(user);
+        //サインイン処理
+        try {
+            await onSignIn('xxxxx');
+        } catch (error) {
+            console.log(error);
+        }
         //移動
         this.props.navigation.navigate('SignedIn')
     }

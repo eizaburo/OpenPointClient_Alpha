@@ -8,22 +8,38 @@ import { connect } from 'react-redux';
 import { updateUserData } from '../actions/userAction';
 
 class Home extends React.Component {
-
-    componentDidMount() {  
-        //もしpageがセットされていて
-        const page = this.props.state.navData.nav.page;
-        //空じゃなかったら
-        if (page !== '') {
-            //指定されたページへ移動
-            this.props.navigation.navigate(page);
-        }
-    }
-
     render() {
         return (
-            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                <Text>Home</Text>
-                <Text>Data: {this.props.state.qrData.qr.data}</Text>
+            <View style={{ flex: 1, paddingVertical: 20 }}>
+                <ScrollView>
+                    <Card title='サインイン情報'>
+                        <View style={{alignItems:'center'}}>
+                            <Text>{this.props.state.userData.user.name}さんとしてサインイン中です。</Text>
+                        </View>
+                    </Card>
+                    <Card
+                        title='おすすめ情報１'
+                        image={{ uri: 'https://cdn.pixabay.com/photo/2015/07/27/19/44/spaghetti-863304_960_720.jpg' }}
+                    >
+                        <Button
+                            title="もっと見る"
+                            backgroundColor='#CC9933'
+                            borderRadius={20}
+                            icon={{ name: 'eye', type: 'octicon' }}
+                        />
+                    </Card>
+                    <Card
+                        title='おすすめ情報２'
+                        image={{ uri: 'https://cdn.pixabay.com/photo/2016/06/10/01/05/hotel-room-1447201_960_720.jpg' }}
+                    >
+                        <Button
+                            title="もっと見る"
+                            backgroundColor='#CC9933'
+                            borderRadius={20}
+                            icon={{ name: 'eye', type: 'octicon' }}
+                        />
+                    </Card>
+                </ScrollView>
             </View>
         );
     }

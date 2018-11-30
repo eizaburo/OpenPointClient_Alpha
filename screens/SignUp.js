@@ -14,6 +14,9 @@ import * as Yup from 'yup';
 //Devlig
 import * as Devlib from '../Devlib';
 
+//Auth
+import { onSignIn } from '../Auth';
+
 class SignUp extends React.Component {
 
     state = {
@@ -27,20 +30,20 @@ class SignUp extends React.Component {
                     <ScrollView>
                         <Formik
                             initialValues={{
-                                name: '',
-                                email: '',
-                                password: '',
-                                passwordConfirm: '',
+                                name: 'user10',
+                                email: 'iser10@test.com',
+                                password: 'testtest',
+                                passwordConfirm: 'testtest',
                             }}
                             onSubmit={(values, { setSubmitting }) => this.handleSignUp(values, { setSubmitting })}
                             validationSchema={Yup.object().shape({
                                 name: Yup
-                                    .string()
+                                    .string().matches(/^(^[a-zA-Z0-9\-_\.]+$)/, '半角英数字のみで入力してください。')
                                     .min(4, '名前は4文字以上8文字以内で入力して下さい。')
                                     .max(16, '名前は4文字以上16文字以内で入力して下さい。')
                                     .required('名前の入力は必須です。'),
                                 email: Yup
-                                    .string().matches(/^(^[a-zA-Z0-9\-_\.]+$)/, '半角英数字のみで入力してください。')
+                                    .string()
                                     .email('Emailの形式ではないようです。')
                                     .required('Emailの入力は必須です。')
                                     .test('check-mail-exist', '該当のアドレスは既に登録されています。', (value) => {
@@ -148,6 +151,12 @@ class SignUp extends React.Component {
         }
         //値の更新
         this.props.updateUserData(user);
+        //サインイン処理
+        try {
+            await onSignIn('xxxxx');
+        } catch (error) {
+            console.log(error);
+        }
         //移動
         this.props.navigation.navigate('SignedIn')
     }
