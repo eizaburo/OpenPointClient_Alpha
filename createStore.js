@@ -12,6 +12,7 @@ export default createStore = () => {
     const persistConfig = {
         key: 'root',
         storage,
+        whitelist: ['userData'],
     }
 
     //reducers
