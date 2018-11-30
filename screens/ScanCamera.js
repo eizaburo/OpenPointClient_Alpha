@@ -45,6 +45,12 @@ class ScanCamera extends React.Component {
                     onBarCodeRead={this.handleBarCodeScanned}
                     style={{ height: 300, width: 300 }}
                 />
+                <Button
+                    title='読み取りシミュレートボタン（テスト用）'
+                    onPress={() => this.handleBarCodeScanned({ type: 'QR', data: '88888888' })}
+                    buttonStyle={{ marginTop: 20 }}
+                    borderRadius={20}
+                />
             </View>
         );
     }
