@@ -7,6 +7,7 @@ import { Card, Button, FormLabel, FormInput, FormValidationMessage } from 'react
 import { connect } from 'react-redux';
 import { updateUserData } from '../actions/userAction';
 import { updateQrData } from '../actions/qrAction';
+import { updateSendValue } from '../actions/valueAction';
 
 //formik
 import { Formik, yupToFormErrors, setNestedObjectValues } from 'formik';
@@ -27,6 +28,8 @@ class ScanTop extends React.Component {
     render() {
         //store内に保存されたQRを取得
         const qr_data = this.props.state.qrData.qr.data;
+        const send_value = this.props.state.valueData.value.send_value;
+
         return (
             <View style={{ flex: 1, paddingVertical: 20 }}>
                 <KeyboardAvoidingView behavior='position'>
@@ -64,6 +67,7 @@ class ScanTop extends React.Component {
                                     <Card title='サーバ連携'>
                                         <FormLabel>ユーザーID（操作対象）</FormLabel>
                                         <FormInput
+                                            name='user_id'
                                             autoCapitalize='none'
                                             placeholder='0000000001'
                                             value={qr_data}
@@ -89,15 +93,21 @@ class ScanTop extends React.Component {
                                         <FormInput
                                             autoCapitalize='none'
                                             placeholder='123'
-                                            value={String(values.value)}
-                                            onChangeText={handleChange('value')}
+                                            value={String(send_value)}
+                                            onChangeText={(text) => {
+                                                this.props.updateSendValue(text); //actionで更新
+                                                //valuesの更新
+                                                let newValues = values;
+                                                newValues.value = text;
+                                                setValues(newValues);
+                                            }}
                                             type='number'
                                         />
                                         {touched.value && <FormValidationMessage>{errors.value}</FormValidationMessage>}
                                         {/* <FormLabel>ID(確認）</FormLabel>
                                         <FormInput
                                             autoCapitalize='none'
-                                            value={values.user_id}
+                                            value={String(values.value)}
                                         /> */}
                                         <Button
                                             title='加算（あげる）'
@@ -125,7 +135,7 @@ class ScanTop extends React.Component {
                                                 //operation flag情報をセット
                                                 let newValues = values;
                                                 newValues.user_id = qr_data;
-                                                newValues.operation = 'ADD';
+                                                newValues.operation = 'SUB';
                                                 setValues(newValues);
                                                 //submit
                                                 handleSubmit();
@@ -231,6 +241,10 @@ class ScanTop extends React.Component {
         const msg = values.user_id + 'に' + values.value + 'Value ' + values.operation + 'しました。';
         alert(msg);
 
+        //formをリセット（このために両方のバリューをstoreに保存）
+        this.props.updateQrData('');
+        this.props.updateSendValue(0);
+
     }
 
     //減算処理
@@ -247,6 +261,10 @@ class ScanTop extends React.Component {
         //実際はサーバ連携処理を書く
         const msg = values.user_id + 'に' + values.value + 'Value ' + values.operation + 'しました。';
         alert(msg);
+
+        //formをリセット（このために両方のバリューをstoreに保存）
+        this.props.updateQrData('');
+        this.props.updateSendValue(0);
     }
 }
 
@@ -261,6 +279,7 @@ const mapDispatchToProps = dispatch => (
     {
         updateUserData: (user) => dispatch(updateUserData(user)),
         updateQrData: (data) => dispatch(updateQrData(data)),
+        updateSendValue: (send_value) => dispatch(updateSendValue(send_value)),
     }
 );
 

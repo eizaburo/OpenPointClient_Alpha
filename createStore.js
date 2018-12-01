@@ -1,6 +1,7 @@
 import { createStore as reduxCreateStore, combineReducers, applyMiddleware } from 'redux';
 import userReducer from './reducers/userReducer';
 import qrReducer from './reducers/qrReducer';
+import valueReducer from './reducers/valueReducer';
 
 //redux persist
 import { persistReducer, persistStore } from 'redux-persist';
@@ -19,6 +20,7 @@ export default createStore = () => {
     const rootReducer = combineReducers({
         userData: userReducer,
         qrData: qrReducer,
+        valueData: valueReducer,
     });
 
     //persisted reducers
