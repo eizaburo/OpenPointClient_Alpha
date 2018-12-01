@@ -45,23 +45,14 @@ class ScanTop extends React.Component {
                             initialValues={{
                                 user_id: '',
                                 value: 0,
-                                // operation: '',
                             }}
                             onSubmit={(values) => { this.handleValue(values) }}
                             validationSchema={Yup.object().shape({
                                 //reduxの値は直接valuesとして評価できないのでthis.props.stateの値を利用して間接的に処理する
                                 user_id: Yup
                                     .string()
-                                    .test('check-user_id', 'IDがおかしいようです。QRを読み取ってください。', (value) => {
-                                        //正規表現
-                                        const reg = new RegExp('[0-9]{8}')
-                                        //redux利用なので、valueを利用せず、redux store内の値を利用する
-                                        if (reg.test(qr_data) === true) {
-                                            return true;
-                                        } else {
-                                            return false;
-                                        }
-                                    }),
+                                    .matches(/^[0-9]{8}$/, 'ユーザーIDは8桁の英数字です。')
+                                    .required('この項目は必須です（QRをスキャンしてください）。'),
                                 value: Yup
                                     .string()
                                     .matches(/^[1-9][0-9]{0,2}$/, '1以上999以下の半角数字を入力してください。')
@@ -69,32 +60,53 @@ class ScanTop extends React.Component {
                             })}
                         >
                             {
-                                ({ handleSubmit, handleChange, values, errors, setValues }) => (
+                                ({ handleSubmit, handleChange, values, errors, setValues, handleBlur, touched }) => (
                                     <Card title='サーバ連携'>
                                         <FormLabel>ユーザーID（操作対象）</FormLabel>
                                         <FormInput
                                             autoCapitalize='none'
                                             placeholder='0000000001'
                                             value={qr_data}
+                                            onChangeText={(text) => {
+                                                this.props.updateQrData(text); //actionで更新
+                                                //valuesの更新
+                                                let newValues = values;
+                                                newValues.user_id = text;
+                                                setValues(newValues);
+                                            }}
+                                            onBlur={() => {
+                                                //valuesの更新
+                                                let newValues = values;
+                                                newValues.user_id = qr_data;
+                                                setValues(newValues);
+                                                //blur
+                                                handleBlur('user_id');
+                                            }}
                                             editable={false}
                                         />
-                                        <FormValidationMessage>{errors.user_id}</FormValidationMessage>
+                                        {(qr_data === '') && <FormValidationMessage>{errors.user_id}</FormValidationMessage>}
                                         <FormLabel>Value</FormLabel>
                                         <FormInput
                                             autoCapitalize='none'
                                             placeholder='123'
-                                            value={values.value.toString()}
+                                            value={String(values.value)}
                                             onChangeText={handleChange('value')}
                                             type='number'
                                         />
-                                        <FormValidationMessage>{errors.value}</FormValidationMessage>
+                                        {touched.value && <FormValidationMessage>{errors.value}</FormValidationMessage>}
+                                        {/* <FormLabel>ID(確認）</FormLabel>
+                                        <FormInput
+                                            autoCapitalize='none'
+                                            value={values.user_id}
+                                        /> */}
                                         <Button
                                             title='加算（あげる）'
                                             onPress={() => {
                                                 //後々使うのでoperationとuser_idをvaluesに追加
+                                                //operation flag情報をセット
                                                 let newValues = values;
-                                                newValues.operation = 'ADD';
                                                 newValues.user_id = qr_data;
+                                                newValues.operation = 'ADD';
                                                 setValues(newValues);
                                                 //submit
                                                 handleSubmit();
@@ -112,8 +124,8 @@ class ScanTop extends React.Component {
                                             onPress={() => {
                                                 //operation flag情報をセット
                                                 let newValues = values;
-                                                newValues.operation = 'SUB';
                                                 newValues.user_id = qr_data;
+                                                newValues.operation = 'ADD';
                                                 setValues(newValues);
                                                 //submit
                                                 handleSubmit();
