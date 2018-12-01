@@ -36,6 +36,7 @@ class ScanTop extends React.Component {
                     }}
                     onSubmit={(values) => { this.handlePlusValue(values) }}
                     validationSchema={Yup.object().shape({
+                        //reduxの値は直接valuesとして評価できないのでthis.props.stateの値を利用して間接的に処理する
                         user_id: Yup
                             .string()
                             .test('check-user_id', 'ユーザーIDがおかしいようです。', (value) => {
@@ -78,7 +79,8 @@ class ScanTop extends React.Component {
                                 <Button
                                     title='加算'
                                     onPress={() => {
-                                        //operation flag情報をセット
+                                        //operation flag情報をvaluesに追加
+                                        //setValuesを引数に追加すること
                                         let newValues = values;
                                         newValues.operation = 'ADD';
                                         setValues(newValues);
@@ -132,12 +134,10 @@ class ScanTop extends React.Component {
         //値の取得
         const user_id = this.props.state.qrData.qr.data;
         const value = values.value;
+        const operation = values.operation;
 
-        if (user_id === '' || value == 0) {
-            alert('データが不正です。');
-        } else {
-            alert(user_id + ' sub ' + value);
-        }
+        //とりあえず表示
+        alert(user_id + ' ' + value + ' ' + operation);
     }
 }
 
