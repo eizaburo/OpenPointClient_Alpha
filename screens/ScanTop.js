@@ -89,7 +89,7 @@ class ScanTop extends React.Component {
                                         />
                                         <FormValidationMessage>{errors.value}</FormValidationMessage>
                                         <Button
-                                            title='加算'
+                                            title='加算（あげる）'
                                             onPress={() => {
                                                 //後々使うのでoperationとuser_idをvaluesに追加
                                                 let newValues = values;
@@ -108,7 +108,7 @@ class ScanTop extends React.Component {
 
                                         />
                                         <Button
-                                            title='減算'
+                                            title='減算（もらう）'
                                             onPress={() => {
                                                 //operation flag情報をセット
                                                 let newValues = values;

@@ -21,7 +21,11 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "jp.bluecode.rnclient01"
+    },
+    "android": {
+      "package": "jp.bluecode.rnclient01"
     }
   }
 }
