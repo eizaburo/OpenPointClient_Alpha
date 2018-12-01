@@ -12,7 +12,18 @@ import { updateQrData } from '../actions/qrAction';
 import { Formik, yupToFormErrors, setNestedObjectValues } from 'formik';
 import * as Yup from 'yup';
 
+//Devlig
+import * as Devlib from '../Devlib';
+
 class ScanTop extends React.Component {
+
+    state = {
+        add_spinner: false,
+        sub_spinner: false,
+        add_disabled: false,
+        sub_disabled: false,
+    }
+
     render() {
         //store内に保存されたQRを取得
         const qr_data = this.props.state.qrData.qr.data;
@@ -34,7 +45,7 @@ class ScanTop extends React.Component {
                         value: 0,
                         // operation: '',
                     }}
-                    onSubmit={(values) => { this.handlePlusValue(values) }}
+                    onSubmit={(values, { setSubmitting }) => { this.handleValue(values, { setSubmitting }) }}
                     validationSchema={Yup.object().shape({
                         //reduxの値は直接valuesとして評価できないのでthis.props.stateの値を利用して間接的に処理する
                         user_id: Yup
@@ -56,7 +67,7 @@ class ScanTop extends React.Component {
                     })}
                 >
                     {
-                        ({ handleSubmit, handleChange, values, errors, setValues }) => (
+                        ({ handleSubmit, handleChange, values, errors, setValues, isSubmitting }) => (
                             <Card title='サーバ連携'>
                                 <FormLabel>ユーザーID（操作対象）</FormLabel>
                                 <FormInput
@@ -78,10 +89,10 @@ class ScanTop extends React.Component {
                                 <Button
                                     title='加算'
                                     onPress={() => {
-                                        //operation flag情報をvaluesに追加
-                                        //setValuesを引数に追加すること
+                                        //後々使うのでoperationとuser_idをvaluesに追加
                                         let newValues = values;
                                         newValues.operation = 'ADD';
+                                        newValues.user_id = qr_data;
                                         setValues(newValues);
                                         //submit
                                         handleSubmit();
@@ -90,6 +101,9 @@ class ScanTop extends React.Component {
                                     borderRadius={20}
                                     icon={{ name: 'plus', type: 'font-awesome' }}
                                     backgroundColor='#FF3366'
+                                    loading={this.state.add_spinner}
+                                    disabled={this.state.add_disabled}
+
                                 />
                                 <Button
                                     title='減算'
@@ -97,6 +111,7 @@ class ScanTop extends React.Component {
                                         //operation flag情報をセット
                                         let newValues = values;
                                         newValues.operation = 'SUB';
+                                        newValues.user_id = qr_data;
                                         setValues(newValues);
                                         //submit
                                         handleSubmit();
@@ -105,6 +120,8 @@ class ScanTop extends React.Component {
                                     borderRadius={20}
                                     icon={{ name: 'plus', type: 'font-awesome' }}
                                     backgroundColor='#6699CC'
+                                    loading={this.state.sub_spinner}
+                                    disabled={this.state.sub_disabled}
                                 />
                             </Card>
                         )
@@ -119,44 +136,101 @@ class ScanTop extends React.Component {
         this.props.navigation.navigate('ScanCamera')
     }
 
-    handlePlusValue = (values) => {
+    //onSubmit valuesにセットされたoperationによりタスクを分岐
+    handleValue = (values, { setSubmitting }) => {
+        if (values.operation === 'ADD') {
+            this.handlePlusValue(values, { setSubmitting });
+        } else {
+            this.handleMinusValue(values, { setSubmitting });
+        }
+    }
+
+    //ADD時の処理
+    handlePlusValue = (values, { setSubmitting }) => {
         //値の取得
         const user_id = this.props.state.qrData.qr.data;
         const value = values.value;
         const operation = values.operation;
-
-        //とりあえず表示
-        // alert(user_id + ' ' + value + ' ' + operation);
-        this.showConfirmAlertForPlus()
+        //コンファーム＋実行
+        this.showConfirmAlertForPlus(values, { setSubmitting });
     }
 
-    handleMinusValue = (values) => {
+    //SUB時の処理
+    handleMinusValue = (values, { setSubmitting }) => {
         //値の取得
         const user_id = this.props.state.qrData.qr.data;
         const value = values.value;
         const operation = values.operation;
-
-        //とりあえず表示
-        alert(user_id + ' ' + value + ' ' + operation);
+        //コンファーム＋実行
+        this.showConfirmAlertForMinus(values, { setSubmitting })
     }
 
-    showConfirmAlertForPlus = () => {
+    //加算用のコンファーム
+    showConfirmAlertForPlus = (values, { setSubmitting }) => {
         Alert.alert(
-            '送信確認',
+            '加算処理',
             '本当に処理を行うか確認してください。',
             [
-                { text: 'キャンセル', onPress: () => this.handleCancel(), style: 'cancel' },
-                { text: 'Value処理', onPress: () => this.handleExec(), style: 'destructive' },
+                { text: 'キャンセル', onPress: () => this.handleCancelForPlus(values, { setSubmitting }), style: 'cancel' },
+                { text: '加算処理', onPress: () => this.handlePlusExec(values, { setSubmitting }), style: 'destructive' }, //onPress直後の()にvaluesを入れない
             ]
         );
     }
 
-    handleCancel = () => {
-        // alert('キャンセルしました。');
+    //減算用のコンファーム
+    showConfirmAlertForMinus = (values, { setSubmitting }) => {
+        Alert.alert(
+            '減算確認',
+            '本当に処理を行うか確認してください。',
+            [
+                { text: 'キャンセル', onPress: () => this.handleCancelForMinus(values, { setSubmitting }), style: 'cancel' },
+                { text: '減算処理', onPress: () => this.handleMinusExec(values, { setSubmitting }), style: 'destructive' },
+
+            ],
+            { cancelable: false }
+        );
     }
 
-    handleExec = () => {
-        alert('実行しました。');
+    //キャンセル処理（加算）
+    handleCancelForPlus = (values, { setSubmitting }) => {
+    }
+
+    //キャンセル処理（減算）
+    handleCancelForMinus = (values, { setSubmitting }) => {
+    }
+
+    //加算処理
+    handlePlusExec = async (values, { setSubmitting }) => {
+
+        this.setState({add_disabled: true});
+        this.setState({ add_spinner: true });
+        
+        await Devlib.sleep(1500);
+
+        this.setState({ add_spinner: false });
+        this.setState({add_disabled: false});
+
+
+        //実際はサーバ連携処理を書く
+        const msg = values.user_id + 'に' + values.value + 'Value ' + values.operation + 'しました。';
+        alert(msg);
+
+    }
+
+    //減算処理
+    handleMinusExec = async (values, { setSubmitting }) => {
+
+        this.setState({sub_disabled: true});
+        this.setState({ sub_spinner: true });
+        
+        await Devlib.sleep(1500);
+
+        this.setState({ sub_spinner: false });
+        this.setState({sub_disabled: false});
+
+        //実際はサーバ連携処理を書く
+        const msg = values.user_id + 'に' + values.value + 'Value ' + values.operation + 'しました。';
+        alert(msg);
     }
 }
 
