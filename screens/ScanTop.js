@@ -120,7 +120,7 @@ class ScanTop extends React.Component {
                                             }}
                                             buttonStyle={{ marginTop: 30 }}
                                             borderRadius={20}
-                                            icon={{ name: 'plus', type: 'font-awesome' }}
+                                            icon={{ name: 'minus', type: 'font-awesome' }}
                                             backgroundColor='#6699CC'
                                             loading={this.state.sub_spinner}
                                             disabled={this.state.sub_disabled}
