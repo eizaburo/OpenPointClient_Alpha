@@ -13,7 +13,9 @@ import Barcode from 'react-native-barcode-builder';
 
 class Identity extends React.Component {
     render() {
+        //storeからid取得
         const id = this.props.state.userData.user.id;
+        //10桁に整形
         const code = ('0000000000' + id).slice(-10);
         return (
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingVertical: 20 }}>
