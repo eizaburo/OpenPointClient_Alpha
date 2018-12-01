@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import { View, Text, ScrollView, Alert } from 'react-native';
 //react-native-elements
 import { Card, Button, FormLabel, FormInput, FormValidationMessage } from 'react-native-elements';
 
@@ -51,7 +51,7 @@ class ScanTop extends React.Component {
                             }),
                         value: Yup
                             .string()
-                            .matches(/^[1-9][0-9]{0,2}$/,'1以上999以下の半角数字を入力してください。')
+                            .matches(/^[1-9][0-9]{0,2}$/, '1以上999以下の半角数字を入力してください。')
                             .required('この項目は必須です。'),
                     })}
                 >
@@ -126,7 +126,8 @@ class ScanTop extends React.Component {
         const operation = values.operation;
 
         //とりあえず表示
-        alert(user_id + ' ' + value + ' ' + operation);
+        // alert(user_id + ' ' + value + ' ' + operation);
+        this.showConfirmAlertForPlus()
     }
 
     handleMinusValue = (values) => {
@@ -137,6 +138,25 @@ class ScanTop extends React.Component {
 
         //とりあえず表示
         alert(user_id + ' ' + value + ' ' + operation);
+    }
+
+    showConfirmAlertForPlus = () => {
+        Alert.alert(
+            '送信確認',
+            '本当に処理を行うか確認してください。',
+            [
+                { text: 'キャンセル', onPress: () => this.handleCancel(), style: 'cancel' },
+                { text: 'Value処理', onPress: () => this.handleExec(), style: 'destructive' },
+            ]
+        );
+    }
+
+    handleCancel = () => {
+        // alert('キャンセルしました。');
+    }
+
+    handleExec = () => {
+        alert('実行しました。');
     }
 }
 
