@@ -9,16 +9,10 @@ import { updateUserData } from '../actions/userAction';
 import { updateQrData } from '../actions/qrAction';
 
 //formik
-import { Formik, yupToFormErrors } from 'formik';
+import { Formik, yupToFormErrors, setNestedObjectValues } from 'formik';
 import * as Yup from 'yup';
 
 class ScanTop extends React.Component {
-
-    state = {
-        user_id_error: '',
-        value_error: '',
-    }
-
     render() {
         //store内に保存されたQRを取得
         const qr_data = this.props.state.qrData.qr.data;
@@ -37,21 +31,41 @@ class ScanTop extends React.Component {
                 <Formik
                     initialValues={{
                         user_id: '',
-                        value: 0
+                        value: 0,
+                        // operation: '',
                     }}
-                    onSubmit={(values, x) => this.handlePlusValue(values, x)}
+                    onSubmit={(values) => { this.handlePlusValue(values) }}
+                    validationSchema={Yup.object().shape({
+                        user_id: Yup
+                            .string()
+                            .test('check-user_id', 'ユーザーIDがおかしいようです。', (value) => {
+                                //正規表現
+                                const reg = new RegExp('[0-9]{8}')
+                                //redux利用なので、valueを利用せず、redux store内の値を利用する
+                                if (reg.test(qr_data) === true) {
+                                    return true;
+                                } else {
+                                    return false;
+                                }
+                            }),
+                        value: Yup
+                            .number()
+                            .min(1, '1以上999以下の半角数字を入力してください。')
+                            .max(999, '1以上999以下の半角数字を入力してください。')
+                            .required('値は必須です。'),
+                    })}
                 >
                     {
-                        ({ handleSubmit, handleChange, values, errors }) => (
+                        ({ handleSubmit, handleChange, values, errors, setValues }) => (
                             <Card title='サーバ連携'>
-                                <FormLabel>操作対象</FormLabel>
+                                <FormLabel>ユーザーID（操作対象）</FormLabel>
                                 <FormInput
                                     autoCapitalize='none'
                                     placeholder='0000000001'
                                     value={qr_data}
                                     editable={false}
                                 />
-                                <FormValidationMessage>{this.state.user_id_error}</FormValidationMessage>
+                                <FormValidationMessage>{errors.user_id}</FormValidationMessage>
                                 <FormLabel>Value</FormLabel>
                                 <FormInput
                                     autoCapitalize='none'
@@ -60,10 +74,17 @@ class ScanTop extends React.Component {
                                     onChangeText={handleChange('value')}
                                     type='number'
                                 />
-                                <FormValidationMessage>{this.state.value_error}</FormValidationMessage>
+                                <FormValidationMessage>{errors.value}</FormValidationMessage>
                                 <Button
                                     title='加算'
-                                    onPress={() => this.handlePlusValue(values)}
+                                    onPress={() => {
+                                        //operation flag情報をセット
+                                        let newValues = values;
+                                        newValues.operation = 'ADD';
+                                        setValues(newValues);
+                                        //submit
+                                        handleSubmit();
+                                    }}
                                     buttonStyle={{ marginTop: 20 }}
                                     borderRadius={20}
                                     icon={{ name: 'plus', type: 'font-awesome' }}
@@ -71,7 +92,14 @@ class ScanTop extends React.Component {
                                 />
                                 <Button
                                     title='減算'
-                                    onPress={() => this.handleMinusValue(values)}
+                                    onPress={() => {
+                                        //operation flag情報をセット
+                                        let newValues = values;
+                                        newValues.operation = 'SUB';
+                                        setValues(newValues);
+                                        //submit
+                                        handleSubmit();
+                                    }}
                                     buttonStyle={{ marginTop: 30 }}
                                     borderRadius={20}
                                     icon={{ name: 'plus', type: 'font-awesome' }}
@@ -91,17 +119,17 @@ class ScanTop extends React.Component {
     }
 
     handlePlusValue = (values) => {
+        //値の取得
         const user_id = this.props.state.qrData.qr.data;
         const value = values.value;
+        const operation = values.operation;
 
-        if (user_id === '' || value == 0) {
-            alert('データが不正です。');
-        } else {
-            alert(user_id + ' add ' + value);
-        }
+        //とりあえず表示
+        alert(user_id + ' ' + value + ' ' + operation);
     }
 
     handleMinusValue = (values) => {
+        //値の取得
         const user_id = this.props.state.qrData.qr.data;
         const value = values.value;
 
