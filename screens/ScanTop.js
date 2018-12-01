@@ -50,10 +50,9 @@ class ScanTop extends React.Component {
                                 }
                             }),
                         value: Yup
-                            .number()
-                            .min(1, '1以上999以下の半角数字を入力してください。')
-                            .max(999, '1以上999以下の半角数字を入力してください。')
-                            .required('値は必須です。'),
+                            .string()
+                            .matches(/^[1-9][0-9]{0,2}$/,'1以上999以下の半角数字を入力してください。')
+                            .required('この項目は必須です。'),
                     })}
                 >
                     {
