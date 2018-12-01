@@ -7,10 +7,11 @@ import { Card, Button, FormLabel, FormInput, FormValidationMessage } from 'react
 import { connect } from 'react-redux';
 import { updateUserData } from '../actions/userAction';
 
- //barcode
+//barcode
 import QRCode from 'react-native-qrcode';
+import Barcode from 'react-native-barcode-builder';
 
- class Identity extends React.Component {
+class Identity extends React.Component {
     render() {
         const id = this.props.state.userData.user.id;
         const code = ('0000000000' + id).slice(-10);
@@ -18,26 +19,37 @@ import QRCode from 'react-native-qrcode';
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingVertical: 20 }}>
                 <Text>Identity</Text>
                 <Text>{code}</Text>
-                <QRCode
-                    value={code}
-                    size={200}
-                    bgColor='black'
-                    fgColor='white'
-                />
+                <View>
+                    <QRCode
+                        value={code}
+                        size={200}
+                        bgColor='black'
+                        fgColor='white'
+                    />
+                </View>
+                <View style={{ marginTop: 80 }}>
+                    <Barcode
+                        value={code}
+                        format="CODE128"
+                        height={50}
+                        text={code}
+                        lineColor='#888888'
+                    />
+                </View>
             </View>
         );
     }
 }
- //redux
+//redux
 const mapStateToProps = state => (
     {
         state: state,
     }
 );
- const mapDispatchToProps = dispatch => (
+const mapDispatchToProps = dispatch => (
     {
         updateUserData: (user) => dispatch(updateUserData(user)),
     }
 );
- export default connect(mapStateToProps, mapDispatchToProps)(Identity);
+export default connect(mapStateToProps, mapDispatchToProps)(Identity);
 // export default Identity; 
