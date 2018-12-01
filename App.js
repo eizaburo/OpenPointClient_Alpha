@@ -26,6 +26,7 @@ import Drawer from './screens/Drawer';
 import Identiry from './screens/Identiry';
 import ScanTop from './screens/ScanTop';
 import ScanCamera from './screens/ScanCamera';
+import History from './screens/History';
 
 //Auth
 import { isSignedIn } from './Auth';
@@ -93,6 +94,21 @@ const HomeTab = createBottomTabNavigator(
             screen: ScanStack,
             navigationOptions: {
                 tabBarIcon: ({ tintColor }) => <Icon size={24} name="camera" color={tintColor} />
+            }
+        },
+        History: {
+            screen: createStackNavigator({ screen: History }, {
+                defaultNavigationOptions: ({ navigation }) => ({
+                    headerLeft: (
+                        <Icon name="bars" size={24} onPress={() => { navigation.openDrawer() }} style={{ paddingLeft: 20 }} color='#fff' />
+                    ),
+                    headerStyle: {
+                        backgroundColor: '#0099FF',
+                    },
+                })
+            }),
+            navigationOptions: {
+                tabBarIcon: ({ tintColor }) => <Icon size={24} name="history" color={tintColor} />
             }
         },
         Profile: {
