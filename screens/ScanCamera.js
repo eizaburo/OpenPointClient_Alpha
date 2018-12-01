@@ -40,7 +40,7 @@ class ScanCamera extends React.Component {
         }
 
         return (
-            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center'}}>
                 <BarCodeScanner
                     onBarCodeRead={this.handleBarCodeScanned}
                     style={{ height: 300, width: 300 }}
