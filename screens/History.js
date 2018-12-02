@@ -25,7 +25,23 @@ class History extends React.Component {
     }
 
     componentDidMount() {
-        this.setState({ histories: list });
+
+        //list加工（必要なパラメータ追加）
+        //実際はFetchの中でやったほうがいいかも
+        const new_list = list.map((item)=>{
+            if(item.operation === 'ADD'){
+                item.icon = 'arrow-up';
+                item.color = '#FF3366';
+            }else{
+                item.icon = 'arrow-down';
+                item.color = '#6699CC';
+            }
+            return item;
+        })
+
+        // console.log(new_list);
+
+        this.setState({ histories: new_list });
     }
 
     render() {
