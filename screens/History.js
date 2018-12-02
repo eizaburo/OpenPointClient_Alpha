@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, ScrollView, FlatList } from 'react-native';
+import { View, Text, ScrollView, FlatList, ActivityIndicator } from 'react-native';
 //react-native-elements
 import { Card, Button, FormLabel, FormInput, FormValidationMessage, ListItem, Icon, colors } from 'react-native-elements';
 
@@ -15,7 +15,17 @@ const list = Devlib.histories;
 class History extends React.Component {
 
     state = {
-        histories: list,
+        histories: [],
+        isrefreshing: false,
+        end_spinner: true,
+    }
+
+    componentWillMount() {
+        this.setState({ histories: [] })
+    }
+
+    componentDidMount() {
+        this.setState({ histories: list });
     }
 
     render() {
@@ -39,10 +49,40 @@ class History extends React.Component {
                                 hideChevron
                             />
                         )}
+                        //pull
+                        onRefresh={() => this.handleRefresh()}
+                        refreshing={this.state.isrefreshing}
+                        //infinit(EndReachedは原則1回だけ発生のよう)
+                        onEndReached={() => this.handleEndReache()}
+                        onEndReachedThreshold={0}
+                        ListFooterComponent={() => <ActivityIndicator size='large' animating={this.state.end_spinner} />}
+                        onMomentumScrollBegin={() => { this.onEndReachedCalledDuringMomentum = false; }}
+                    // inverted
                     />
                 </Card>
             </View>
         );
+    }
+
+    handleRefresh = async () => {
+        await Devlib.sleep(1500);
+        this.setState({ refreshing: false });
+        alert('refresh'); //alertのタイミングでspinnerが閉じないことがある（本番でalert + spinnerは併用しないほうがいいかも）
+    }
+
+    handleEndReache = async () => {
+
+        if (!this.onEndReachedCalledDuringMomentum) {
+
+            // https://github.com/facebook/react-native/issues/14015#issuecomment-310675650
+            //処理
+            this.setState({ end_spinner: true });
+            await Devlib.sleep(1500);
+            this.setState({ end_spinner: false });
+            alert('end');
+
+            this.onEndReachedCalledDuringMomentum = true;
+        }
     }
 }
 
