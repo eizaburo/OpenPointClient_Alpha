@@ -22,7 +22,9 @@ class History extends React.Component {
         return (
             <View style={{ flex: 1, paddingVertical: 20 }}>
                 <Card title='利用サマリ'>
-                    <Text>残Value：100</Text>
+                    <View style={{ alignItems: 'center' }}>
+                        <Text>Blance of Value：100</Text>
+                    </View>
                 </Card>
                 <Card title='利用履歴'>
                     <FlatList

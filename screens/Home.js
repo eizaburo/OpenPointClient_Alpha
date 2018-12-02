@@ -1,44 +1,48 @@
 import React from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import { View, Text, ScrollView, FlatList } from 'react-native';
 //react-native-elements
-import { Card, Button, FormLabel, FormInput, FormValidationMessage } from 'react-native-elements';
+import { Card, Button, FormLabel, FormInput, FormValidationMessage, ListItem } from 'react-native-elements';
 
 //redux
 import { connect } from 'react-redux';
 import { updateUserData } from '../actions/userAction';
 
+//Devlig
+import * as Devlib from '../Devlib';
+
+const list = Devlib.recommends;
+
 class Home extends React.Component {
+    state = {
+        recommends: list,
+    }
     render() {
+        // console.log(this.state.recommends);
         return (
             <View style={{ flex: 1, paddingVertical: 20 }}>
                 <ScrollView>
                     <Card title='サインイン情報'>
-                        <View style={{alignItems:'center'}}>
+                        <View style={{ alignItems: 'center' }}>
                             <Text>{this.props.state.userData.user.name}さんとしてサインイン中です。</Text>
                         </View>
                     </Card>
-                    <Card
-                        title='おすすめ情報１'
-                        image={{ uri: 'https://cdn.pixabay.com/photo/2015/07/27/19/44/spaghetti-863304_960_720.jpg' }}
-                    >
-                        <Button
-                            title="もっと見る"
-                            backgroundColor='#CC9933'
-                            borderRadius={20}
-                            icon={{ name: 'eye', type: 'octicon' }}
-                        />
-                    </Card>
-                    <Card
-                        title='おすすめ情報２'
-                        image={{ uri: 'https://cdn.pixabay.com/photo/2016/06/10/01/05/hotel-room-1447201_960_720.jpg' }}
-                    >
-                        <Button
-                            title="もっと見る"
-                            backgroundColor='#CC9933'
-                            borderRadius={20}
-                            icon={{ name: 'eye', type: 'octicon' }}
-                        />
-                    </Card>
+                    <FlatList
+                        data={this.state.recommends}
+                        keyExtractor={(item) => item.id.toString()}
+                        renderItem={({ item }) => (
+                            <Card
+                                title={item.title}
+                                image={{ uri: item.image }}
+                            >
+                                <Button
+                                    title="もっと見る"
+                                    backgroundColor='#CC9933'
+                                    borderRadius={20}
+                                    icon={{ name: 'eye', type: 'octicon' }}
+                                />
+                            </Card>
+                        )}
+                    />
                 </ScrollView>
             </View>
         );
