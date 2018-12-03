@@ -11,7 +11,10 @@ export const isSignedIn = async () => {
 
     try {
 
+        //token取得
         const access_token = await AsyncStorage.getItem('ACCESS_TOKEN');
+
+        //状態を確認
         if (access_token !== null) {
             return { signedIn: true, access_token: access_token }
         } else {

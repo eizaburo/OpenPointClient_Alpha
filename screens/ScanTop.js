@@ -49,7 +49,7 @@ class ScanTop extends React.Component {
                                 user_id: '',
                                 value: 0,
                             }}
-                            onSubmit={(values) => { this.handleValue(values) }}
+                            onSubmit={(values, { resetForm }) => { this.handleValue(values, { resetForm }) }}
                             validationSchema={Yup.object().shape({
                                 //reduxの値は直接valuesとして評価できないのでthis.props.stateの値を利用して間接的に処理する
                                 user_id: Yup
@@ -163,7 +163,10 @@ class ScanTop extends React.Component {
     }
 
     //onSubmit valuesにセットされたoperationによりタスクを分岐
-    handleValue = (values) => {
+    handleValue = (values, { resetForm }) => {
+        //ここでとりあえずformReset()　見た目に空にはならないみたい
+        resetForm();
+        //条件分岐
         if (values.operation === 'ADD') {
             this.handleAddValue(values);
         } else {
