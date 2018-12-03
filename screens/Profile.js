@@ -34,7 +34,7 @@ class Profile extends React.Component {
                         />
                         <FormLabel>サインイン</FormLabel>
                         <FormInput
-                            value={this.props.state.userData.user.signedIn.toString()}
+                            value={String(this.props.state.userData.user.signedIn)}
                             editable={false}
                         />
                     </Card>
